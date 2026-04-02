@@ -13,7 +13,7 @@ import time
 # -----------------------------
 # CONFIG
 # -----------------------------
-st.set_page_config(page_title="EcoHealth Premium", layout="wide")
+st.set_page_config(page_title="EcoHealth Prediction System", layout="wide")
 
 # -----------------------------
 # PREMIUM CSS
@@ -127,7 +127,7 @@ uploaded = st.sidebar.file_uploader("Upload CSV", type=["csv"])
 if page == "Home":
 
     # 🌍 TITLE
-    st.markdown("<h1 style='text-align:center;'>🌍 EcoHealth Monitoring System</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align:center;'>🌍 EcoHealth Prediction System</h1>", unsafe_allow_html=True)
     st.markdown("<h4 style='text-align:center;'>AI + IoT Based Ecosystem Analysis</h4>", unsafe_allow_html=True)
 
     st.markdown("---")
@@ -349,6 +349,7 @@ elif page == "Dashboard":
 # PREDICTION
 # -----------------------------
 elif page=="Prediction":
+    st.title("Prediction")
     if uploaded:
         df = preprocess(pd.read_csv(uploaded))
         X = get_features(df)
