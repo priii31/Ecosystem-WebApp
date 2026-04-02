@@ -245,22 +245,39 @@ elif page == "Dashboard":
         df = preprocess(df)
 
         # -----------------------------
-        # METRICS CARDS
+        # 📊 METRICS CARDS
         # -----------------------------
         c1, c2, c3 = st.columns(3)
 
-        c1.markdown(f"<div class='card'><h3>🌡 Temperature</h3><h2>{df['Temperature'].mean():.2f}</h2></div>", unsafe_allow_html=True)
-        c2.markdown(f"<div class='card'><h3>💧 Humidity</h3><h2>{df['Humidity'].mean():.2f}</h2></div>", unsafe_allow_html=True)
-        c3.markdown(f"<div class='card'><h3>🌫 Air Quality</h3><h2>{df['AirQuality'].mean():.2f}</h2></div>", unsafe_allow_html=True)
+        c1.markdown(f"""
+        <div class='card'>
+        <h3>🌡 Temperature</h3>
+        <h2>{df['Temperature'].mean():.2f}</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+        c2.markdown(f"""
+        <div class='card'>
+        <h3>💧 Humidity</h3>
+        <h2>{df['Humidity'].mean():.2f}</h2>
+        </div>
+        """, unsafe_allow_html=True)
+
+        c3.markdown(f"""
+        <div class='card'>
+        <h3>🌫 Air Quality</h3>
+        <h2>{df['AirQuality'].mean():.2f}</h2>
+        </div>
+        """, unsafe_allow_html=True)
 
         st.markdown("---")
 
         # -----------------------------
-        # PREDICTION FOR GAUGE
+        # 🔮 PREDICTION + GAUGE
         # -----------------------------
         if model:
 
-            # Safe features
+            # Safe feature handling
             for col in REQUIRED:
                 if col not in df.columns:
                     df[col] = 0
@@ -269,31 +286,36 @@ elif page == "Dashboard":
 
             preds = model.predict(scaler.transform(X))
             df["Prediction"] = encoder.inverse_transform(preds)
+
             # -----------------------------
-            # HEALTH SCORE MAPPING
+            # HEALTH SCORE
             # -----------------------------
             mapping = {
                 "Healthy": 90,
                 "Moderate": 60,
                 "Critical": 30
             }
+
             df["Score"] = df["Prediction"].map(mapping).fillna(50)
             avg_score = df["Score"].mean()
 
-             # -----------------------------
-             # STATUS TEXT
-             # -----------------------------
-             if avg_score >= 75:
-                 status = "🟢 Healthy"
-             elif avg_score >= 50:
-                 status = "🟡 Moderate"
-             else:
-                 status = "🔴 At Risk"
-             st.subheader(f"🧭 Ecosystem Status: {status}")
+            # -----------------------------
+            # STATUS DISPLAY
+            # -----------------------------
+            if avg_score >= 75:
+                status = "🟢 Healthy"
+            elif avg_score >= 50:
+                status = "🟡 Moderate"
+            else:
+                status = "🔴 At Risk"
+
+            st.subheader(f"🧭 Ecosystem Status: {status}")
 
             # -----------------------------
             # GAUGE METER
             # -----------------------------
+            import plotly.graph_objects as go
+
             fig = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=avg_score,
@@ -311,7 +333,16 @@ elif page == "Dashboard":
                     ],
                 }
             ))
+
             st.plotly_chart(fig, use_container_width=True)
+
+        st.markdown("---")
+
+        # -----------------------------
+        # 📋 DATA PREVIEW
+        # -----------------------------
+        st.subheader("📋 Data Preview")
+        st.dataframe(df.head(), use_container_width=True)
 
 
 # -----------------------------
