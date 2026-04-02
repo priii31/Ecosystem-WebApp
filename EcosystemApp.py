@@ -273,13 +273,12 @@ elif page == "Dashboard":
             # HEALTH SCORE MAPPING
             # -----------------------------
             mapping = {
-            "Healthy": 90,
-            "Moderate": 60,
-            "Critical": 30
-             }
-
-             df["Score"] = df["Prediction"].map(mapping).fillna(50)
-             avg_score = df["Score"].mean()
+                "Healthy": 90,
+                "Moderate": 60,
+                "Critical": 30
+            }
+            df["Score"] = df["Prediction"].map(mapping).fillna(50)
+            avg_score = df["Score"].mean()
 
              # -----------------------------
              # STATUS TEXT
