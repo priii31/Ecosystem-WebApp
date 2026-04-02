@@ -269,53 +269,51 @@ elif page == "Dashboard":
 
             preds = model.predict(scaler.transform(X))
             df["Prediction"] = encoder.inverse_transform(preds)
+            # -----------------------------
+            # HEALTH SCORE MAPPING
+            # -----------------------------
+            mapping = {
+            "Healthy": 90,
+            "Moderate": 60,
+            "Critical": 30
+             }
 
-# -----------------------------
-# HEALTH SCORE MAPPING
-# -----------------------------
-mapping = {
-    "Healthy": 90,
-    "Moderate": 60,
-    "Critical": 30
-}
+             df["Score"] = df["Prediction"].map(mapping).fillna(50)
+             avg_score = df["Score"].mean()
 
-df["Score"] = df["Prediction"].map(mapping).fillna(50)
-avg_score = df["Score"].mean()
+             # -----------------------------
+             # STATUS TEXT
+             # -----------------------------
+             if avg_score >= 75:
+                 status = "🟢 Healthy"
+             elif avg_score >= 50:
+                 status = "🟡 Moderate"
+             else:
+                 status = "🔴 At Risk"
+             st.subheader(f"🧭 Ecosystem Status: {status}")
 
-# -----------------------------
-# STATUS TEXT
-# -----------------------------
-if avg_score >= 75:
-    status = "🟢 Healthy"
-elif avg_score >= 50:
-    status = "🟡 Moderate"
-else:
-    status = "🔴 At Risk"
+            # -----------------------------
+            # GAUGE METER
+            # -----------------------------
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=avg_score,
+                number={'suffix': " /100"},
+                title={'text': "Ecosystem Health Score"},
+                gauge={
+                    'axis': {'range': [0, 100]},
+                    'bar': {
+                        'color': "green" if avg_score >= 75 else ("orange" if avg_score >= 50 else "red")
+                    },
+                    'steps': [
+                        {'range': [0, 50], 'color': "lightcoral"},   # At Risk
+                        {'range': [50, 75], 'color': "gold"},        # Moderate
+                        {'range': [75, 100], 'color': "lightgreen"}  # Healthy
+                    ],
+                }
+            ))
+            st.plotly_chart(fig, use_container_width=True)
 
-st.subheader(f"🧭 Ecosystem Status: {status}")
-
-# -----------------------------
-# GAUGE METER
-# -----------------------------
-fig = go.Figure(go.Indicator(
-    mode="gauge+number",
-    value=avg_score,
-    number={'suffix': " /100"},
-    title={'text': "Ecosystem Health Score"},
-    gauge={
-        'axis': {'range': [0, 100]},
-        'bar': {
-            'color': "green" if avg_score >= 75 else ("orange" if avg_score >= 50 else "red")
-        },
-        'steps': [
-            {'range': [0, 50], 'color': "lightcoral"},   # At Risk
-            {'range': [50, 75], 'color': "gold"},        # Moderate
-            {'range': [75, 100], 'color': "lightgreen"}  # Healthy
-        ],
-    }
-))
-
-st.plotly_chart(fig, use_container_width=True)
 
 # -----------------------------
 # PREDICTION
