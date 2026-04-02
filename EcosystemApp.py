@@ -317,11 +317,11 @@ fig = go.Figure(go.Indicator(
 
 st.plotly_chart(fig, use_container_width=True)
 
-        # -----------------------------
-        # DATA PREVIEW
-        # -----------------------------
-        st.subheader("📋 Data Preview")
-        st.dataframe(df.head())
+# -----------------------------
+# DATA PREVIEW
+# -----------------------------
+st.subheader("📋 Data Preview")
+st.dataframe(df.head())
 
 # -----------------------------
 # PREDICTION
