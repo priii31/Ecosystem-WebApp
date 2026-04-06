@@ -710,7 +710,7 @@ elif page == "About":
     st.title("ℹ About the Project")
 
     st.markdown("""
-    ### 🌍 Ecosystem Health Prediction System
+    ### 🌍 EcoHealth Prediction System
 
     This project is a *Machine Learning-based web application* designed to monitor 
     and analyze environmental conditions using various ecosystem parameters such as 
@@ -745,7 +745,7 @@ elif page == "About":
     ### 🔍 Key Features
 
     - 📊 Interactive Dashboard  
-    - 🔮 Ecosystem Health Prediction  
+    - 🔮 EcoHealth Prediction  
     - 📈 Advanced Analytics & Visualization  
     - 📡 IoT Sensor Simulation  
     - 📄 Automated PDF Report Generation  
