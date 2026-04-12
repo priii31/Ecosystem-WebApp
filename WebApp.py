@@ -482,40 +482,30 @@ elif page == "Analytics":
         # -----------------------------
         st.markdown("## 🔥 Correlation Heatmap (Custom Selection)")
 
-numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
-
-selected_cols = st.multiselect(
-    "Select features for correlation",
-    numeric_cols,
-    default=numeric_cols[:4] if len(numeric_cols) >= 4 else numeric_cols
-)
-
-if len(selected_cols) >= 2:
-
-    corr_data = df[selected_cols].corr()
-
-    fig, ax = plt.subplots(figsize=(10,6))
-
-    sns.heatmap(
-        corr_data,
-        annot=True,
-        cmap="coolwarm",
-        linewidths=0.5,
-        ax=ax
+        numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+        selected_cols = st.multiselect(
+        "Select features for correlation",
+        numeric_cols,
+        default=numeric_cols[:4] if len(numeric_cols) >= 4 else numeric_cols
     )
-
-    ax.set_title("Selected Feature Correlation", fontsize=14, color="white")
-
-    ax.tick_params(axis='x', colors='white')
-    ax.tick_params(axis='y', colors='white')
-
-    fig.patch.set_facecolor('#0f2027')
-    ax.set_facecolor('#0f2027')
-
-    st.pyplot(fig)
-
-else:
-    st.warning("Please select at least 2 features")
+        if len(selected_cols) >= 2:
+            corr_data = df[selected_cols].corr()
+            fig, ax = plt.subplots(figsize=(10,6))
+            sns.heatmap(
+                corr_data,
+                annot=True,
+                cmap="coolwarm",
+                linewidths=0.5,
+                ax=ax
+            )
+            ax.set_title("Selected Feature Correlation", fontsize=14, color="white")
+            ax.tick_params(axis='x', colors='white')
+            ax.tick_params(axis='y', colors='white')
+            fig.patch.set_facecolor('#0f2027')
+            ax.set_facecolor('#0f2027')
+            st.pyplot(fig)
+        else:
+            st.warning("Please select at least 2 features")
 
         # -----------------------------
         # 🔍 SCATTER (FIXED)
