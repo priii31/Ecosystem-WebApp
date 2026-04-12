@@ -134,7 +134,7 @@ def generate_sample_data():
         "Soil_Moisture": np.random.uniform(10, 60, 100).round(2),
         "Light": np.random.uniform(100, 1000, 100).round(2),
         "pH": np.random.uniform(5, 8, 100).round(2),
-        "Timestamp": pd.date_range(start="2024-01-01", periods=100, freq="H")
+        "Timestamp": pd.date_range(start="2024-01-01", periods=100, freq="h")
     })
 
     return df.to_csv(index=False).encode("utf-8")
