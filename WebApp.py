@@ -809,7 +809,7 @@ elif page == "Report":
 # -----------------------------
 elif page == "About":
 
-    st.title("ℹ About the Project")
+    st.title("About the Project")
 
     st.markdown("""
     ### 🌍 EcoHealth Prediction System
