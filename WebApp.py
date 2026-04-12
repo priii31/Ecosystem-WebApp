@@ -414,7 +414,7 @@ elif page == "Prediction":
     else:
         df = pd.read_csv(uploaded)
         df = preprocess(df)
-
+        
         try:
             # -----------------------------
             # SAFE FEATURE HANDLING
@@ -456,6 +456,8 @@ elif page == "Prediction":
             ✔ If many are *Moderate*, monitoring is required  
             ✔ If *Critical*, immediate action is needed  
             """)
+        except Exception as e:
+            st.error(f"Error:{e}")
 
 # -----------------------------
 # ANALYTICS
